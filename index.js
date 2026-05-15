@@ -14,8 +14,8 @@ const PORT = process.env.PORT || 8080;
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Handle Single Page Application (SPA) routing
-// Support Express 5 '*all' syntax as requested, with a standard fallback
-app.get(['*all', '*'], (req, res) => {
+// Specifically using Express 5 '*all' syntax as requested to catch all client-side routes
+app.get('*all', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
