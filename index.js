@@ -1,25 +1,24 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 
-// Port 3000 is required for the internal environment, 
-// but we use process.env.PORT to be flexible for deployment.
-const PORT = process.env.PORT || 3000;
+// Listen on process.env.PORT or 8080 as requested
+const PORT = process.env.PORT || 8080;
 
 // Serve static files from the dist directory
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Handle Single Page Application (SPA) routing
-// Support Express 5 *all syntax as requested
-app.get('*all', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
-
-// Standard fallback for Express 4 compatibility or if *all isn't supported as expected
-app.get('*', (req, res) => {
+// Support Express 5 '*all' syntax as requested, with a standard fallback
+app.get(['*all', '*'], (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://0.0.0.0:${PORT}`);
+  console.log(`ElectroNexus production server active on port ${PORT}`);
 });
